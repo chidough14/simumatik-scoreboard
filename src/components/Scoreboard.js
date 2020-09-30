@@ -1,75 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Tag, Space, Button, Modal, Input } from 'antd';
+import { Table, Tag, Space, Button, Modal, Input, Popconfirm, message } from 'antd';
 import {CloseOutlined, ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons'
 import './Scoreboard.css'
-
-
-const columns = [
-    {
-      title: 'Participants',
-      dataIndex: 'participants',
-      key: 'participants',
-      render: text => <a>{text}</a>,
-    },
-    {
-      title: 'Wins',
-      dataIndex: 'wins',
-      key: 'wins',
-    },
-    {
-      title: 'Losses',
-      dataIndex: 'losses',
-      key: 'losses',
-    },
-    {
-        title: <ArrowUpOutlined />,
-        dataIndex: 'increment',
-        key: 'increment',
-    },
-    {
-        title: <ArrowDownOutlined />,
-        dataIndex: 'decrement',
-        key: 'decrement',
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <Space size="middle">
-          <a>
-              <CloseOutlined />
-          </a>
-        </Space>
-      ),
-    },
-  ];
-
- /*  const data = [
-    {
-      key: '1',
-      participants: 'John Brown',
-      wins: 5,
-      losses: 5,
-      increment: <a><ArrowUpOutlined /></a>,
-      decrement: <a><ArrowDownOutlined /></a>
-    },
-    {
-      key: '2',
-      participants: 'Jim Green',
-      wins: 4,
-      losses: 6,
-      increment: <a><ArrowUpOutlined /></a>,
-      decrement: <a><ArrowDownOutlined /></a>
-    },
-    {
-      key: '3',
-      participants: 'Joe Black',
-      wins: 3,
-      losses: 5,
-      increment: <a><ArrowUpOutlined /></a>,
-      decrement: <a><ArrowDownOutlined /></a>
-    }
-  ]; */
 
 const initialData = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : []
 
@@ -132,7 +64,17 @@ const Scoreboard = () => {
         setVisible(false)
     }
 
+    const text = 'Are you sure to Adjust the score?';
 
+    function confirmWin(key) {
+        message.info('Clicked on Yes.');
+        incrementWin(key)
+    }
+
+    function confirmLoss(key) {
+        message.info('Clicked on Yes.');
+        decrementWin(key)
+    }
     return (
         <div>
             <div className="scoreboard_header">
@@ -160,21 +102,27 @@ const Scoreboard = () => {
                     </th>
 
                     {
-                        data.map(dt => (
-                        <tr>
-                            <td>{dt.participants}</td>
-                            <td>{dt.wins}</td>
-                            <td>{dt.losses}</td>
-                            <td>
-                               <a><ArrowUpOutlined onClick={() => incrementWin(dt.key)} /></a>
-                            </td>
-                            <td>
-                                <a><ArrowDownOutlined onClick={() => decrementWin(dt.key)}/></a> 
-                            </td>
-                            <td>
-                                <CloseOutlined onClick={() => deleteParticipant(dt.key)}/>
-                            </td>
-                        </tr>
+                        [].concat(data).sort((a, b) => (a.wins-a.losses) < (b.wins-b.losses) ? 1 : -1).map(dt => (
+                            <tr>
+                                <td>{dt.participants}</td>
+                                <td>{dt.wins}</td>
+                                <td>{dt.losses}</td>
+                                <td>
+                                   <Popconfirm placement="top" title={text} onConfirm={() => confirmWin(dt.key)} okText="Yes" cancelText="No">
+                                        <a><ArrowUpOutlined /></a>
+                                    </Popconfirm>
+                                </td>
+                                <td>
+                                    
+                                    <Popconfirm placement="top" title={text} onConfirm={() => confirmLoss(dt.key)} okText="Yes" cancelText="No">
+                                        <a> <ArrowDownOutlined/> </a> 
+                                    </Popconfirm>
+                                   
+                                </td>
+                                <td>
+                                    <CloseOutlined onClick={() => deleteParticipant(dt.key)}/>
+                                </td>
+                            </tr>
                         ))
                     }
                 </table>
