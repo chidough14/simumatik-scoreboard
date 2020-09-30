@@ -111,6 +111,21 @@ const Scoreboard = () => {
         nwdata[id] = incwin;
         setData(nwdata);
     }
+
+    const decrementWin = (key) => {
+        const id = data.findIndex(dt => dt.key === key)
+
+        const nwdata = [...data];
+        let incloss = { ...nwdata[id] };
+        incloss.losses++;
+        nwdata[id] = incloss;
+        setData(nwdata);
+    }
+
+    const deleteParticipant = (key) => {
+
+        setData(data.filter(dt => dt.key !== key))
+    }
    
 
     const handleCancel = () => {
@@ -154,10 +169,10 @@ const Scoreboard = () => {
                                <a><ArrowUpOutlined onClick={() => incrementWin(dt.key)} /></a>
                             </td>
                             <td>
-                                <a><ArrowDownOutlined /></a> 
+                                <a><ArrowDownOutlined onClick={() => decrementWin(dt.key)}/></a> 
                             </td>
                             <td>
-                                <CloseOutlined />
+                                <CloseOutlined onClick={() => deleteParticipant(dt.key)}/>
                             </td>
                         </tr>
                         ))
