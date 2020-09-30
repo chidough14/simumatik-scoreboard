@@ -5,3 +5,27 @@
 .scoreboard_header {
     text-align: center;
 }
+
+
+#scoreboard_table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#scoreboard_table td, #scoreboard_table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#scoreboard_table tr:nth-child(even){background-color: #f2f2f2;}
+
+#scoreboard_table tr:hover {background-color: #ddd;}
+
+#scoreboard_table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}

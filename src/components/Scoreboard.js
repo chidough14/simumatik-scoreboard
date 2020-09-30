@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, Tag, Space, Button, Modal, Input } from 'antd';
 import {CloseOutlined, ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons'
 import './Scoreboard.css'
@@ -71,12 +71,17 @@ const columns = [
     }
   ]; */
 
+const initialData = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : []
+
 const Scoreboard = () => {
 
    const [visible, setVisible] = useState(false)
    const [name, setName] = useState("")
-   const [data, setData] = useState([])
+   const [data, setData] = useState(initialData)
 
+   useEffect(() => {
+       localStorage.setItem('data', JSON.stringify(data))
+   }, [data])
 
     const showModal = () => {
         setVisible(true)
@@ -86,21 +91,33 @@ const Scoreboard = () => {
     const handleOk = (e) => {
         setVisible(false)
         const key = Math.random().toString(36).substring(7)
-        setData(data => data.concat({
+        const newdata = {
             key: key,
             participants: name,
             wins: 0,
-            losses: 0,
-            increment: <a><ArrowUpOutlined /></a>,
-            decrement: <a><ArrowDownOutlined /></a> 
-        }))
-
+            losses: 0
+        }
+        
+        setData(data => ([...data, newdata]))
         setName("")
     }
+
+    const incrementWin = (key) => {
+        const id = data.findIndex(dt => dt.key === key)
+
+        const nwdata = [...data];
+        let incwin = { ...nwdata[id] };
+        incwin.wins++;
+        nwdata[id] = incwin;
+        setData(nwdata);
+    }
+   
 
     const handleCancel = () => {
         setVisible(false)
     }
+
+
     return (
         <div>
             <div className="scoreboard_header">
@@ -111,7 +128,42 @@ const Scoreboard = () => {
                     Add Player
                 </Button>
             </div>
-            <Table columns={columns} dataSource={data} />
+
+            <div>
+                <table id="scoreboard_table">
+                    <th>Participants</th>
+                    <th>Wins</th>
+                    <th>Losses</th>
+                    <th>
+                        <ArrowUpOutlined />
+                    </th>
+                    <th>
+                        <ArrowDownOutlined />
+                    </th>
+                    <th>
+                         <CloseOutlined />
+                    </th>
+
+                    {
+                        data.map(dt => (
+                        <tr>
+                            <td>{dt.participants}</td>
+                            <td>{dt.wins}</td>
+                            <td>{dt.losses}</td>
+                            <td>
+                               <a><ArrowUpOutlined onClick={() => incrementWin(dt.key)} /></a>
+                            </td>
+                            <td>
+                                <a><ArrowDownOutlined /></a> 
+                            </td>
+                            <td>
+                                <CloseOutlined />
+                            </td>
+                        </tr>
+                        ))
+                    }
+                </table>
+            </div>
 
             <Modal
                 title="Basic Modal"
