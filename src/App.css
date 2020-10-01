@@ -5,12 +5,16 @@
 .wrapper {
   margin-right: auto;
   margin-left:  auto; 
-  margin-top: 100px;
 
   max-width: 960px; 
 
   padding-right: 10px;
   padding-left:  10px; 
+}
+
+.img_logo img {
+  width: 150px;
+  height: 150px;
 }
 
 /* .App-logo {

@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Tag, Space, Button, Modal, Input, Popconfirm, message } from 'antd';
-import {CloseOutlined, ArrowDownOutlined, ArrowUpOutlined} from '@ant-design/icons'
+import {  Button, message } from 'antd';
 import './Scoreboard.css'
+import ModalComponent from './ModalComponent'
+import TableComponent from './TableComponent';
 
 const initialData = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : []
 
 const Scoreboard = () => {
 
-   const [visible, setVisible] = useState(false)
-   const [name, setName] = useState("")
-   const [data, setData] = useState(initialData)
+    const [visible, setVisible] = useState(false)
+    const [name, setName] = useState("")
+    const [data, setData] = useState(initialData)
 
-   useEffect(() => {
-       localStorage.setItem('data', JSON.stringify(data))
-   }, [data])
+    useEffect(() => {
+        localStorage.setItem('data', JSON.stringify(data))
+    }, [data])
 
     const showModal = () => {
         setVisible(true)
@@ -21,17 +22,19 @@ const Scoreboard = () => {
 
 
     const handleOk = (e) => {
-        setVisible(false)
-        const key = Math.random().toString(36).substring(7)
-        const newdata = {
-            key: key,
-            participants: name,
-            wins: 0,
-            losses: 0
-        }
-        
-        setData(data => ([...data, newdata]))
-        setName("")
+       if(name) {
+            setVisible(false)
+            const key = Math.random().toString(36).substring(7)
+            const newdata = {
+                key: key,
+                participants: name,
+                wins: 0,
+                losses: 0
+            }
+            
+            setData(data => ([...data, newdata]))
+            setName("")
+       }
     }
 
     const incrementWin = (key) => {
@@ -77,65 +80,30 @@ const Scoreboard = () => {
     }
     return (
         <div>
-            <div className="scoreboard_header">
-                <h1>Simumatik Score Board</h1>
-            </div>
-            <div style={{ marginBottom: 16 }} className="scoreboard_button">
-                <Button type="primary" onClick={showModal}>
+            <div style={{ marginBottom: 16 }}>
+                <h1 className="scoreboard_header">Simumatik Score Board</h1>
+                <Button type="primary" onClick={showModal} className="scoreboard_button">
                     Add Player
                 </Button>
             </div>
 
             <div>
-                <table id="scoreboard_table">
-                    <th>Participants</th>
-                    <th>Wins</th>
-                    <th>Losses</th>
-                    <th>
-                        <ArrowUpOutlined />
-                    </th>
-                    <th>
-                        <ArrowDownOutlined />
-                    </th>
-                    <th>
-                         <CloseOutlined />
-                    </th>
-
-                    {
-                        [].concat(data).sort((a, b) => (a.wins-a.losses) < (b.wins-b.losses) ? 1 : -1).map(dt => (
-                            <tr>
-                                <td>{dt.participants}</td>
-                                <td>{dt.wins}</td>
-                                <td>{dt.losses}</td>
-                                <td>
-                                   <Popconfirm placement="top" title={text} onConfirm={() => confirmWin(dt.key)} okText="Yes" cancelText="No">
-                                        <a><ArrowUpOutlined /></a>
-                                    </Popconfirm>
-                                </td>
-                                <td>
-                                    
-                                    <Popconfirm placement="top" title={text} onConfirm={() => confirmLoss(dt.key)} okText="Yes" cancelText="No">
-                                        <a> <ArrowDownOutlined/> </a> 
-                                    </Popconfirm>
-                                   
-                                </td>
-                                <td>
-                                    <CloseOutlined onClick={() => deleteParticipant(dt.key)}/>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </table>
+                <TableComponent 
+                    data={data} 
+                    confirmWin={confirmWin} 
+                    confirmLoss={confirmLoss}
+                    deleteParticipant={deleteParticipant}
+                    text={text}
+                />
             </div>
 
-            <Modal
-                title="Basic Modal"
-                visible={visible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                >
-                <Input placeholder="Enter Name" onChange={(e) => setName(e.target.value) } value={name} />
-            </Modal>
+            <ModalComponent 
+                visible={visible} 
+                handleCancel={handleCancel}
+                handleOk={handleOk}
+                name={name}
+                setName={setName}
+            />
         </div>
     )
 }
