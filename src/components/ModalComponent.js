@@ -5,7 +5,7 @@ const ModalComponent = ({visible, handleOk, handleCancel, name, setName}) => {
     return (
         <div>
              <Modal
-                title="Basic Modal"
+                title="Add Participant"
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}

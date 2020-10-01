@@ -88,13 +88,13 @@ const Scoreboard = () => {
             </div>
 
             <div>
-                <TableComponent 
-                    data={data} 
-                    confirmWin={confirmWin} 
-                    confirmLoss={confirmLoss}
-                    deleteParticipant={deleteParticipant}
-                    text={text}
-                />
+                 <TableComponent 
+                        data={data} 
+                        confirmWin={confirmWin} 
+                        confirmLoss={confirmLoss}
+                        deleteParticipant={deleteParticipant}
+                        text={text}
+                    />
             </div>
 
             <ModalComponent 

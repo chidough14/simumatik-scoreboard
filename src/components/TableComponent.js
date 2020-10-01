@@ -19,7 +19,7 @@ const TableComponent = ({data, confirmWin, confirmLoss, deleteParticipant, text}
                         <CloseOutlined />
                 </th>
 
-                {
+                { data == "" ? <tr><td style={{textAlign: 'center'}} colSpan="6"><h2>No Data Available</h2></td></tr> :
                     [].concat(data).sort((a, b) => (a.wins-a.losses) < (b.wins-b.losses) ? 1 : -1).map(dt => (
                         <tr>
                             <td>{dt.participants}</td>
@@ -44,6 +44,7 @@ const TableComponent = ({data, confirmWin, confirmLoss, deleteParticipant, text}
                     ))
                 }
             </table>
+            
         </div>
     )
 }
