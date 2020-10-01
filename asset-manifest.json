@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/simumatik-scoreboard/static/css/main.8a63f927.chunk.css",
+    "main.js": "/simumatik-scoreboard/static/js/main.c509cc62.chunk.js",
+    "main.js.map": "/simumatik-scoreboard/static/js/main.c509cc62.chunk.js.map",
+    "runtime-main.js": "/simumatik-scoreboard/static/js/runtime-main.af3d2635.js",
+    "runtime-main.js.map": "/simumatik-scoreboard/static/js/runtime-main.af3d2635.js.map",
+    "static/css/2.220ccb42.chunk.css": "/simumatik-scoreboard/static/css/2.220ccb42.chunk.css",
+    "static/js/2.9b0c8267.chunk.js": "/simumatik-scoreboard/static/js/2.9b0c8267.chunk.js",
+    "static/js/2.9b0c8267.chunk.js.map": "/simumatik-scoreboard/static/js/2.9b0c8267.chunk.js.map",
+    "index.html": "/simumatik-scoreboard/index.html",
+    "precache-manifest.d1ab0825bc12515eb78267a84da6d938.js": "/simumatik-scoreboard/precache-manifest.d1ab0825bc12515eb78267a84da6d938.js",
+    "service-worker.js": "/simumatik-scoreboard/service-worker.js",
+    "static/css/2.220ccb42.chunk.css.map": "/simumatik-scoreboard/static/css/2.220ccb42.chunk.css.map",
+    "static/css/main.8a63f927.chunk.css.map": "/simumatik-scoreboard/static/css/main.8a63f927.chunk.css.map",
+    "static/js/2.9b0c8267.chunk.js.LICENSE.txt": "/simumatik-scoreboard/static/js/2.9b0c8267.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.af3d2635.js",
+    "static/css/2.220ccb42.chunk.css",
+    "static/js/2.9b0c8267.chunk.js",
+    "static/css/main.8a63f927.chunk.css",
+    "static/js/main.c509cc62.chunk.js"
+  ]
+}
